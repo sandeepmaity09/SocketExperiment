@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <script>
+        var socket = io();
+
+        setInterval(function () {
+            socket.emit('clientToServerEvent', {
+                description: 'This event is from client to server in 5 sec'
+            })
+        }, 5000)
+
+        socket.on('message', function (data) {
+            var h1 = document.createElement('h1');
+            var t = document.createTextNode(data);
+            h1.appendChild(t);
+            document.body.appendChild(h1);
+        })
+
+        socket.on('testerevent', function (data) {
+            var p = document.createElement('p');
+            var t = document.createTextNode(data.description);
+            p.appendChild(t);
+            document.body.appendChild(p);
+        })
+
+        socket.on('broadcast', function (data) {
+            var p = document.createElement('h2');
+            var t = document.createTextNode(data.description);
+            p.appendChild(t);
+            document.body.appendChild(p);
+        })
+    </script>
+    <h1>Hello World!</h1>
+</body>
+
+</html>
